@@ -1,12 +1,11 @@
 [Unit]
-Description=PiSmoker
+Description=PiWeather
 After=network.target
-#DefaultDependencies=false
 
 [Service]
 Type=simple
-ExecStart = /usr/bin/python2 /home/pi/PiSmoker/PiSmoker.py
-TimeoutSec = 60
+ExecStart = /usr/bin/python3 /home/pi/PiWeather/PiWeather.py
+Restart = always
 
 [Install]
 WantedBy=multi-user.target
