@@ -44,8 +44,9 @@ class AnalogDisplay():
 	def __init__(self, Gages):
 		self.Gages = Gages
 
+		#Initialize output pins
 		for G in Gages:
-			logging.info(G['Name'])
+			pi.set_PWM_range(G['GPIO'], 100) #PWM from 0-100
 
 	def UpdateGages(self,Current):
 		pass
