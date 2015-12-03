@@ -20,6 +20,11 @@ def main():
 	config = configparser.ConfigParser()
 	config.read('/boot/PiWeather.ini')
 
+	if config['WUnderground'].get('apiKey',None) is None:
+		logging.info('WUnderground API key not defined in /boot/PiWeather.ini')
+		Shutdown()
+
+
 	Weather = WUnderground(config['WUnderground']['apiKey'], config['WUnderground'].get('Station',None))
 	Display = AnalogDisplay(Gages)
 
@@ -29,9 +34,12 @@ def main():
 			Display.UpdateGages(Current)
 			time.sleep(60)
 		except KeyboardInterrupt:
-			logging.info('Caught ctrl-c, shutting down....')
-			pi.stop()
-			sys.exit(0)
+			Shutdown()
+
+def Shutdown():
+	logging.info('Shutting down....')
+	pi.stop()
+	sys.exit(0)
 
 class WUnderground():
 	def __init__(self, apiKey, Station=None):
