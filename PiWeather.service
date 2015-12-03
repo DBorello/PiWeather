@@ -1,0 +1,13 @@
+[Unit]
+Description=PiSmoker
+After=network.target
+#DefaultDependencies=false
+
+[Service]
+Type=simple
+ExecStart = /usr/bin/python2 /home/pi/PiSmoker/PiSmoker.py
+TimeoutSec = 60
+
+[Install]
+WantedBy=multi-user.target
+
