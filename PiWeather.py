@@ -53,11 +53,11 @@ class AnalogDisplay():
 
 
 
-Gages = [{'Name': 'Temp',       'GPIO': 1, 'Min': 0, 'Max': 100},
-         {'Name': 'Humidity',   'GPIO': 2, 'Min': 0, 'Max': 100},
-         {'Name': 'Pressure',   'GPIO': 3, 'Min': 29, 'Max': 31 },
-         {'Name': 'Precip',     'GPIO': 4, 'Min': 0, 'Max': 1},
-         {'Name': 'Wind',       'GPIO': 5, 'Min': 0, 'Max': 30}]
+Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
+         {'Name': 'Humidity',   'GPIO': 18, 'Min': 0, 'Max': 100},
+         {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
+         {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
+         {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
 
 Weather = WUnderground()
 Display = AnalogDisplay(Gages)
