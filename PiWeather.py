@@ -11,3 +11,4 @@ class WUnderground():
 		print(data)
 
 Weather = WUnderground()
+Weather.GetLocal()
