@@ -43,7 +43,7 @@ class WUnderground():
 		self.Current = {'Temp': 0, 'Humidity': 0, 'Precip': 0, 'Pressure': 30, 'Wind': 0}
 		if Station is None:
 			self.Station = self.GetLocal()
-		else
+		else:
 			self.Station = Station
 
 	def GetLocal(self):
