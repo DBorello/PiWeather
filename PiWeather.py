@@ -30,7 +30,7 @@ class WUnderground():
 		self.Current['Pressure'] = StationData['pressure']
 		self.Current['Wind'] =  StationData['wind_speed']
 
-		logging.info('Recieved weather: ',str(Current))
+		logging.info('Recieved weather: ',str(self.Current))
 
 		return self.Current
 
