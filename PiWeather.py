@@ -2,7 +2,7 @@ import time
 import requests
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 class WUnderground():
 	def __init__(self):
