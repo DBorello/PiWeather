@@ -45,7 +45,7 @@ class AnalogDisplay():
 		self.Gages = Gages
 
 		for G in Gages:
-			logging.info(G['name'])
+			logging.info(G['Name'])
 
 	def UpdateGages(self,Current):
 		pass
