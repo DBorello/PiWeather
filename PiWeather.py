@@ -1,7 +1,8 @@
-import time
-import requests
 import logging
+import time
+
 import pigpio
+import requests
 
 logging.basicConfig(level=logging.INFO)
 
@@ -43,13 +44,24 @@ class WUnderground():
 class AnalogDisplay():
 	def __init__(self, Gages):
 		self.Gages = Gages
+		self.DutyRange = 100
 
 		#Initialize output pins
 		for G in Gages:
-			pi.set_PWM_range(G['GPIO'], 100) #PWM from 0-100
+			pi.set_PWM_range(G['GPIO'], self.DutyRange) #PWM from 0-100
 
 	def UpdateGages(self,Current):
-		pass
+		for G in Gages:
+			Reading = Current[G['Name']]
+			Range = G['Max'] - G['Min']
+
+			Output = (Reading - G['Min'])/Range
+			Output = max(0,min(1,Output))
+			Duty = Output*self.DutyRange
+
+			logging.debug('Setting {} to {}'.format(G['Name'], Duty) )
+
+			pi.set_PWM_dutycycle(G['GPIO'], Duty)
 
 
 
