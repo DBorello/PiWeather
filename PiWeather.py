@@ -42,13 +42,13 @@ class WUnderground():
 			self.Station = self.GetLocal()
 		else:
 			self.Station = Station
+		logging.info('Using station: %s',Station)
 
 	def GetLocal(self):
 		r = requests.get('http://api.wunderground.com/api/{}/geolookup/q/autoip.json'.format(self.apiKey))
 		data = r.json()
 		logging.debug('Raw geoip response: %s',str(data))
 		Station = data['location']['nearby_weather_stations']['pws']['station'][0]['id']
-		logging.info('Using geolocation station: %s',Station)
 		return Station
 
 	def GetWeather(self):
