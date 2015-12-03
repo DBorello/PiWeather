@@ -6,7 +6,11 @@ import time
 import pigpio
 import requests
 
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
+numeric_level = getattr(logging, loglevel.upper(), None)
+if not isinstance(numeric_level, int):
+    raise ValueError('Invalid log level: %s' % loglevel)
+logging.basicConfig(level=numeric_level, ...)
 
 pi = pigpio.pi()
 Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
