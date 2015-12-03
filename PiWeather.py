@@ -6,7 +6,8 @@ class WUnderground():
 		pass
 
 	def GetLocal(self):
-
-
+		r = requests.get('http://api.wunderground.com/api/d567171cf9081060/geolookup/q/autoip.json')
+		data = r.json()
+		print(data)
 
 Weather = WUnderground()
