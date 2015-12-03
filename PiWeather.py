@@ -14,6 +14,7 @@ Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
          {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
          {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
          {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
+OverrideButton = 24
 
 def main():
 	#Load config
@@ -23,7 +24,6 @@ def main():
 	if config['WUnderground'].get('apiKey',None) is None:
 		logging.info('WUnderground API key not defined in /boot/PiWeather.ini')
 		Shutdown()
-
 
 	Weather = WUnderground(config['WUnderground']['apiKey'], config['WUnderground'].get('Station',None))
 	Display = AnalogDisplay(Gages)
@@ -87,7 +87,13 @@ class AnalogDisplay():
 		for G in self.Gages:
 			pi.set_PWM_range(G['GPIO'], self.DutyRange) #PWM from 0-100
 
+
+		#Initialize max button
+		pi.set_mode(OverrideButton, pigpio.OUTPUT)
+
+
 	def UpdateGages(self,Current):
+		Override = self.GetOverride()
 		for G in self.Gages:
 			Reading = Current[G['Name']]
 			Range = G['Max'] - G['Min']
@@ -96,10 +102,15 @@ class AnalogDisplay():
 			Output = max(0,min(1,Output))
 			Duty = Output*self.DutyRange
 
-			logging.debug('Setting {} to {}'.format(G['Name'], Duty) )
+			if Override:
+				Duty = self.DutyRange
 
+			logging.debug('Setting {} to {}'.format(G['Name'], Duty) )
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
 
+	def GetOverride(self):
+		logging.info('Caught override')
+		return pi.read(OverrideButton)
 
 if __name__ == "__main__":
 	main()
