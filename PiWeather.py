@@ -15,7 +15,7 @@ class WUnderground():
 		logging.info('Using geolocation station: ',self.Station)
 
 	def GetWeather(self):
-		r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:i}'.format(self.Station,int(round(time.time()*1000,0))))
+		r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:d}'.format(self.Station,int(round(time.time()*1000,0))))
 		data = r.json
 		print(r.json)
 
