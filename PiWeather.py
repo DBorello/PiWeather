@@ -6,7 +6,7 @@ import time
 import pigpio
 import requests
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 pi = pigpio.pi()
 Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
