@@ -74,8 +74,12 @@ Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
 Weather = WUnderground()
 Display = AnalogDisplay(Gages)
 
+while 1:
+	try:
+		Current = Weather.GetWeather()
+		Display.UpdateGages(Current)
+		time.sleep(60)
+	except KeyboardInterrupt:
+		pi.stop()
+		sys.exit(0)
 
-Current = Weather.GetWeather()
-Display.UpdateGages(Current)
-
-pi.stop()
