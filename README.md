@@ -22,6 +22,9 @@ Analog weather station powered by a Raspberry Pi
     git pull https://github.com/DBordello/PiWeather.git
     
 ### /boot/PiWeather.ini
+    [General]
+    logLevel = INFO
+
     [WUnderground]
     apiKey = {{apiKey}}
     Station = KORPHILO13

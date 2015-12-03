@@ -22,6 +22,7 @@ def main():
 	#Load config
 	config = configparser.ConfigParser()
 	config.read('/boot/PiWeather.ini')
+	logger.setLevel(logging.getLevelName(config['General'].get('LogLevel','INFO')))
 
 	if config['WUnderground'].get('apiKey',None) is None:
 		logger.info('WUnderground API key not defined in /boot/PiWeather.ini')
