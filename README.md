@@ -23,7 +23,7 @@ Analog weather station powered by a Raspberry Pi
     
 ### /boot/PiWeather.ini
     [General]
-    logLevel = INFO
+    LogLevel = INFO
 
     [WUnderground]
     apiKey = {{apiKey}}
