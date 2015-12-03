@@ -47,11 +47,11 @@ class AnalogDisplay():
 		self.DutyRange = 100
 
 		#Initialize output pins
-		for G in Gages:
+		for G in self.Gages:
 			pi.set_PWM_range(G['GPIO'], self.DutyRange) #PWM from 0-100
 
 	def UpdateGages(self,Current):
-		for G in Gages:
+		for G in self.Gages:
 			Reading = Current[G['Name']]
 			Range = G['Max'] - G['Min']
 
