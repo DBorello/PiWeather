@@ -7,6 +7,7 @@ logging.basicConfig(level=logging.DEBUG)
 class WUnderground():
 	def __init__(self):
 		self.Station = ''
+		self.Current = {'Temp': 0, 'Humidity': 0, 'Precip': 0, 'Pressure': 30, 'Wind': 0}
 		self.GetLocal()
 
 	def GetLocal(self):
@@ -20,7 +21,21 @@ class WUnderground():
 		r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:d}'.format(self.Station,int(round(time.time()*1000,0))))
 		data = r.json()
 		logging.debug('Raw weather response',data)
-		print(data)
+
+		StationData = data['stations'][data['stations'].keys()[0]]
+
+		self.Current['Temp'] = StationData['temperature']
+		self.Current['Humidity'] = StationData['humidity']
+		self.Current['Precip'] = StationData['precip_today']
+		self.Current['Pressure'] = StationData['pressure']
+		self.Current['Wind'] =  StationData['wind_speed']
+
+		logging.info('Recieved weather: ',str(Current))
+
+		return self.Current
+
+
+
 
 Weather = WUnderground()
-Weather.GetWeather()
+Current = Weather.GetWeather()
