@@ -14,7 +14,7 @@ Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
          {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
          {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
          {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
-OverrideButton = 24
+OverrideButton = 26
 
 def main():
 	#Load config
