@@ -109,8 +109,10 @@ class AnalogDisplay():
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
 
 	def GetOverride(self):
-		logging.info('Caught override')
-		return pi.read(OverrideButton)
+		Override = pi.read(OverrideButton)
+		if Override:
+			logging.info('Caught override')
+		return Override
 
 if __name__ == "__main__":
 	main()
