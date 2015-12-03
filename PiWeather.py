@@ -4,7 +4,7 @@ import time
 import pigpio
 import requests
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 pi = pigpio.pi()
 
