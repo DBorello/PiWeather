@@ -35,7 +35,8 @@ class WUnderground():
 			self.Current['Wind'] =  StationData['wind_speed']
 
 			logging.info('Recieved weather: %s ',str(self.Current))
-
+		except:
+			logging.info('Failed to pull weather from WUnderground')
 		return self.Current
 
 class AnalogDisplay():
