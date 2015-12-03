@@ -6,7 +6,9 @@ import time
 import pigpio
 import requests
 
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logger.INFO)
+logger = logging.getLogger(__name__)
+
 
 pi = pigpio.pi()
 Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
@@ -22,7 +24,7 @@ def main():
 	config.read('/boot/PiWeather.ini')
 
 	if config['WUnderground'].get('apiKey',None) is None:
-		logging.info('WUnderground API key not defined in /boot/PiWeather.ini')
+		logger.info('WUnderground API key not defined in /boot/PiWeather.ini')
 		Shutdown()
 
 	Weather = WUnderground(config['WUnderground']['apiKey'], config['WUnderground'].get('Station',None))
@@ -37,7 +39,7 @@ def main():
 			Shutdown()
 
 def Shutdown():
-	logging.info('Shutting down....')
+	logger.info('Shutting down....')
 	pi.stop()
 	sys.exit(0)
 
@@ -50,12 +52,12 @@ class WUnderground():
 			self.Station = self.GetLocal()
 		else:
 			self.Station = Station
-		logging.info('Using station: %s',self.Station)
+		logger.info('Using station: %s',self.Station)
 
 	def GetLocal(self):
 		r = requests.get('http://api.wunderground.com/api/{}/geolookup/q/autoip.json'.format(self.apiKey))
 		data = r.json()
-		logging.debug('Raw geoip response: %s',str(data))
+		logger.debug('Raw geoip response: %s',str(data))
 		Station = data['location']['nearby_weather_stations']['pws']['station'][0]['id']
 		return Station
 
@@ -63,7 +65,7 @@ class WUnderground():
 		try:
 			r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:d}'.format(self.Station,int(round(time.time()*1000,0))))
 			data = r.json()
-			logging.debug('Raw weather response: %s',str(data))
+			logger.debug('Raw weather response: %s',str(data))
 
 			StationData = data['stations'][list(data['stations'].keys())[0]]
 
@@ -73,9 +75,9 @@ class WUnderground():
 			self.Current['Precip'] = StationData['precip_today']
 			self.Current['Wind'] =  StationData['wind_speed']
 
-			logging.info('Recieved weather: %s ',str(self.Current))
+			logger.info('Recieved weather: %s ',str(self.Current))
 		except:
-			logging.info('Failed to pull weather from WUnderground')
+			logger.info('Failed to pull weather from WUnderground')
 		return self.Current
 
 class AnalogDisplay():
@@ -105,13 +107,13 @@ class AnalogDisplay():
 			if Override:
 				Duty = self.DutyRange
 
-			logging.debug('Setting {} to {}'.format(G['Name'], Duty) )
+			logger.debug('Setting {} to {}'.format(G['Name'], Duty) )
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
 
 	def GetOverride(self):
 		Override = pi.read(OverrideButton)
 		if Override:
-			logging.info('Caught override')
+			logger.info('Caught override')
 		return Override
 
 if __name__ == "__main__":
