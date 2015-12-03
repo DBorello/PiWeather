@@ -81,6 +81,7 @@ while 1:
 		Display.UpdateGages(Current)
 		time.sleep(60)
 	except KeyboardInterrupt:
+		logging.info('Caught ctrl-c, shutting down....')
 		pi.stop()
 		sys.exit(0)
 
