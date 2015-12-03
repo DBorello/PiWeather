@@ -1,3 +1,4 @@
+import configparser
 import logging
 import sys
 import time
@@ -7,21 +8,51 @@ import requests
 
 logging.basicConfig(level=logging.INFO)
 
-pi = pigpio.pi()
 
+
+Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
+         {'Name': 'Humidity',   'GPIO': 18, 'Min': 0, 'Max': 100},
+         {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
+         {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
+         {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
+
+def main():
+	#Load config
+	config = configparser.ConfigParser()
+	config.read('/boot/PiWeather.ini')
+
+
+	pi = pigpio.pi()
+	Weather = WUnderground(config['WUnderground']['apiKey'])
+	Display = AnalogDisplay(Gages)
+
+	while 1:
+		try:
+			Current = Weather.GetWeather()
+			Display.UpdateGages(Current)
+			time.sleep(60)
+		except KeyboardInterrupt:
+			logging.info('Caught ctrl-c, shutting down....')
+			pi.stop()
+			sys.exit(0)
 
 class WUnderground():
-	def __init__(self):
-		self.Station = ''
+	def __init__(self, apiKey, Station=None):
+		self.apiKey = apiKey
+
 		self.Current = {'Temp': 0, 'Humidity': 0, 'Precip': 0, 'Pressure': 30, 'Wind': 0}
-		self.GetLocal()
+		if Station is None:
+			self.Station = self.GetLocal()
+		else
+			self.Station = Station
 
 	def GetLocal(self):
-		r = requests.get('http://api.wunderground.com/api/d567171cf9081060/geolookup/q/autoip.json')
+		r = requests.get('http://api.wunderground.com/api/{}/geolookup/q/autoip.json'.format(self.apiKey))
 		data = r.json()
 		logging.debug('Raw geoip response: %s',str(data))
-		self.Station = data['location']['nearby_weather_stations']['pws']['station'][0]['id']
-		logging.info('Using geolocation station: %s',self.Station)
+		Station = data['location']['nearby_weather_stations']['pws']['station'][0]['id']
+		logging.info('Using geolocation station: %s',Station)
+		return Station
 
 	def GetWeather(self):
 		try:
@@ -65,23 +96,5 @@ class AnalogDisplay():
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
 
 
-
-Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
-         {'Name': 'Humidity',   'GPIO': 18, 'Min': 0, 'Max': 100},
-         {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
-         {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
-         {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
-
-Weather = WUnderground()
-Display = AnalogDisplay(Gages)
-
-while 1:
-	try:
-		Current = Weather.GetWeather()
-		Display.UpdateGages(Current)
-		time.sleep(60)
-	except KeyboardInterrupt:
-		logging.info('Caught ctrl-c, shutting down....')
-		pi.stop()
-		sys.exit(0)
-
+if __name__ == "__main__":
+	main()
