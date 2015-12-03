@@ -22,7 +22,7 @@ class WUnderground():
 		data = r.json()
 		logging.debug('Raw weather response',data)
 
-		StationData = data['stations'][data['stations'].keys()[0]]
+		StationData = data['stations'][list(data['stations'].keys())[0]]
 
 		self.Current['Temp'] = StationData['temperature']
 		self.Current['Humidity'] = StationData['humidity']
