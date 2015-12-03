@@ -42,7 +42,7 @@ class WUnderground():
 			self.Station = self.GetLocal()
 		else:
 			self.Station = Station
-		logging.info('Using station: %s',Station)
+		logging.info('Using station: %s',self.Station)
 
 	def GetLocal(self):
 		r = requests.get('http://api.wunderground.com/api/{}/geolookup/q/autoip.json'.format(self.apiKey))
