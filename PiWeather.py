@@ -5,7 +5,7 @@ import pigpio
 
 logging.basicConfig(level=logging.INFO)
 
-pi = pigio.pi()
+pi = pigpio.pi()
 
 
 class WUnderground():
