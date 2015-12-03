@@ -20,9 +20,7 @@ def main():
 	config = configparser.ConfigParser()
 	config.read('/boot/PiWeather.ini')
 
-
-
-	Weather = WUnderground(config['WUnderground']['apiKey'])
+	Weather = WUnderground(config['WUnderground']['apiKey'], config['WUnderground'].get('Station',None))
 	Display = AnalogDisplay(Gages)
 
 	while 1:
