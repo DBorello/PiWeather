@@ -76,3 +76,6 @@ Display = AnalogDisplay(Gages)
 
 
 Current = Weather.GetWeather()
+Display.UpdateGages(Current)
+
+pi.stop()
