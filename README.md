@@ -5,11 +5,7 @@ Analog weather station powered by a Raspberry Pi
 * python-requests
 * pigpio
 
-## /boot/PiWeather.ini
-    [WUnderground]
-    apiKey = {{apiKey}}
-    Station = KORPHILO13
-    
+   
 
 ### Deployment
 
@@ -24,3 +20,8 @@ Analog weather station powered by a Raspberry Pi
     #Pull repository
     cd ~
     git pull https://github.com/DBordello/PiWeather.git
+    
+### /boot/PiWeather.ini
+    [WUnderground]
+    apiKey = {{apiKey}}
+    Station = KORPHILO13
