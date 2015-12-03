@@ -8,8 +8,7 @@ import requests
 
 logging.basicConfig(level=logging.INFO)
 
-
-
+pi = pigpio.pi()
 Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
          {'Name': 'Humidity',   'GPIO': 18, 'Min': 0, 'Max': 100},
          {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
@@ -22,7 +21,7 @@ def main():
 	config.read('/boot/PiWeather.ini')
 
 
-	pi = pigpio.pi()
+
 	Weather = WUnderground(config['WUnderground']['apiKey'])
 	Display = AnalogDisplay(Gages)
 
