@@ -4,8 +4,7 @@ After=pigpiod.service
 
 [Service]
 Type=simple
-ExecStartPre = sudo /usr/local/bin/pigpiod
-ExecStartPre = /bin/sleep 1
+ExecStartPre = git -C /root/PiWeather pull
 ExecStart = /usr/bin/python3 /root/PiWeather/PiWeather.py
 Restart = always
 
