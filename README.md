@@ -8,6 +8,17 @@ Analog weather station powered by a Raspberry Pi
    
 
 ### Deployment
+    #Write DietPi Image, edit dietpi.txt
+    Ethernet_Enabled=0
+    Wifi_Enabled=1
+    Wifi_SSID=FuzonWifi
+    Wifi_KEY=MyAccessKey
+
+    #Login as root
+    #Advanced -> Swap -> Disable
+
+    #Install dependencies
+    apt-get -y install build-essential git python3 python3-requests
 
     #Install pigpio
     cd ~
@@ -15,17 +26,17 @@ Analog weather station powered by a Raspberry Pi
     unzip pigpio.zip
     cd PIGPIO
     make
-    sudo make install
+    make install
     
     #Pull repository
     cd ~
-    git pull https://github.com/DBordello/PiWeather.git
+    git clone https://github.com/DBordello/PiWeather.git
     
     #Setup service 
-    sudo ln /home/pi/PiWeather/PiWeather.service /etc/systemd/system/PiWeather.service
-    sudo systemctl enable PiWeather.service
-    sudo ln /home/pi/PiWeather/pigpiod.service /etc/systemd/system/pigpiod.service
-    sudo systemctl enable pigpiod.service 
+    ln /root/PiWeather/PiWeather.service /etc/systemd/system/PiWeather.service
+    systemctl enable PiWeather.service
+    ln /root/PiWeather/pigpiod.service /etc/systemd/system/pigpiod.service
+    systemctl enable pigpiod.service
 
 ### /boot/PiWeather.ini
     [General]
