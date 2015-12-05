@@ -6,7 +6,7 @@ After=pigpiod.service
 Type=simple
 ExecStartPre = sudo /usr/local/bin/pigpiod
 ExecStartPre = /bin/sleep 1
-ExecStart = /usr/bin/python3 /home/pi/PiWeather/PiWeather.py
+ExecStart = /usr/bin/python3 /root/PiWeather/PiWeather.py
 Restart = always
 
 [Install]
