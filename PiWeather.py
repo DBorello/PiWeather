@@ -15,7 +15,7 @@ Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
          {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
          {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
          {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
-OverrideButton = 25
+OverrideButton = 14
 
 def main():
 	#Load config
@@ -97,8 +97,8 @@ class AnalogDisplay():
 
 		#Initialize max button
 		pi.set_mode(OverrideButton, pigpio.INPUT)
-		pi.set_pull_up_down(OverrideButton, pigpio.PUD_DOWN)
-		pi.callback(OverrideButton, pigpio.RISING_EDGE, self.DoOverride())
+		pi.set_pull_up_down(OverrideButton, pigpio.PUD_UP)
+		pi.callback(OverrideButton, pigpio.FALLING_EDGE, self.DoOverride)
 
 
 	def UpdateGages(self,Current):
@@ -123,7 +123,7 @@ class AnalogDisplay():
 			logger.info('Caught override')
 		return Override
 
-	def DoOverride(self):
+	def DoOverride(self, gpio, level, tick):
 		logger.info('Doing override')
 		for G in self.Gages:
 			pi.set_PWM_dutycycle(G['GPIO'], self.DutyRange)
