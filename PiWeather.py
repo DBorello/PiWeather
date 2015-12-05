@@ -103,7 +103,7 @@ class AnalogDisplay():
 
 
 	def UpdateGages(self,Current):
-		if Override:
+		if self.Override:
 			logger.info('In override mode, not updating gages')
 			return
 		for G in self.Gages:
