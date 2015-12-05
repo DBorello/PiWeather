@@ -39,7 +39,7 @@ def main():
 		try:
 			Current = Weather.GetWeather()
 			Display.UpdateGages(Current)
-			time.sleep(60)
+			time.sleep(15)
 		except KeyboardInterrupt:
 			Shutdown()
 
@@ -117,7 +117,7 @@ class AnalogDisplay():
 		logger.info('Doing override')
 		for G in self.Gages:
 			pi.set_PWM_dutycycle(G['GPIO'], self.DutyRange)
-		time.sleep(60)
+		time.sleep(15)
 
 
 if __name__ == "__main__":
