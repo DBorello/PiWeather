@@ -1,9 +1,11 @@
 [Unit]
 Description=PiWeather
-After=network.target
+After=pigpiod.service
 
 [Service]
 Type=simple
+ExecStartPre = sudo /usr/local/bin/pigpiod
+ExecStartPre = /bin/sleep 1
 ExecStart = /usr/bin/python3 /home/pi/PiWeather/PiWeather.py
 Restart = always
 
