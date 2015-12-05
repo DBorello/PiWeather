@@ -2,6 +2,7 @@
 Analog weather station powered by a Raspberry Pi
 
 ## Dependencies
+* python3
 * python-requests
 * pigpio
 

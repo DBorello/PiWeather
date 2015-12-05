@@ -1,10 +1,9 @@
 import configparser
 import logging
-import sys
-import time
-
 import pigpio
 import requests
+import sys
+import time
 
 #logging.basicConfig(level=logger.INFO)
 logger = logging.getLogger(__name__)
@@ -15,7 +14,7 @@ Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
          {'Name': 'Humidity',   'GPIO': 18, 'Min': 0, 'Max': 100},
          {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
          {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
-         {'Name': 'Wind',       'GPIO': 28, 'Min': 0, 'Max': 30}]
+         {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
 OverrideButton = 26
 
 def main():
