@@ -96,7 +96,8 @@ class AnalogDisplay():
 
 
 		#Initialize max button
-		pi.set_mode(OverrideButton, pigpio.OUTPUT)
+		pi.set_mode(OverrideButton, pigpio.INPUT)
+		pi.callback(OverrideButton, pigpio.RISING_EDGE, self.DoOverride())
 
 
 	def UpdateGages(self,Current):
@@ -120,6 +121,13 @@ class AnalogDisplay():
 		if Override:
 			logger.info('Caught override')
 		return Override
+
+	def DoOverride(self):
+		logger.info('Doing override')
+		for G in self.Gages:
+			pi.set_PWM_dutycycle(G['GPIO'], self.DutyRange)
+		time.sleep(60)
+
 
 if __name__ == "__main__":
 	main()
