@@ -102,7 +102,6 @@ class AnalogDisplay():
 
 
 	def UpdateGages(self,Current):
-		Override = self.GetOverride()
 		for G in self.Gages:
 			Reading = Current[G['Name']]
 			Range = G['Max'] - G['Min']
@@ -111,17 +110,8 @@ class AnalogDisplay():
 			Output = max(0,min(1,Output))
 			Duty = Output*self.DutyRange
 
-			if Override:
-				Duty = self.DutyRange
-
 			logger.debug('Setting {} to {}'.format(G['Name'], Duty) )
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
-
-	def GetOverride(self):
-		Override = pi.read(OverrideButton)
-		if Override:
-			logger.info('Caught override')
-		return Override
 
 	def DoOverride(self, gpio, level, tick):
 		logger.info('Doing override')
