@@ -97,6 +97,7 @@ class AnalogDisplay():
 
 		#Initialize max button
 		pi.set_mode(OverrideButton, pigpio.INPUT)
+		pi.set_pull_up_down(OverrideButton, pigpio.PUD_DOWN)
 		pi.callback(OverrideButton, pigpio.RISING_EDGE, self.DoOverride())
 
 
