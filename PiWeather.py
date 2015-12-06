@@ -102,6 +102,8 @@ class AnalogDisplay():
 		pi.set_pull_up_down(OverrideButton, pigpio.PUD_UP)
 		pi.callback(OverrideButton, pigpio.FALLING_EDGE, self.DoOverride)
 
+		self.StartupAnimation()
+
 
 	def UpdateGages(self,Current):
 		if self.Override:
@@ -128,6 +130,12 @@ class AnalogDisplay():
 		self.OverrideTime = time.time()
 		for G in self.Gages:
 			pi.set_PWM_dutycycle(G['GPIO'], self.DutyRange)
+
+	def StartupAnimation(self):
+		for G in self.Gages:
+			pi.set_PWM_dutycycle(G['GPIO'], self.DutyRange)
+			time.sleep(0.25)
+			pi.set_PWM_dutycycle(G['GPIO'], 0)
 
 
 if __name__ == "__main__":
