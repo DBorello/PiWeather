@@ -134,7 +134,7 @@ class AnalogDisplay():
 	def StartupAnimation(self):
 		for G in self.Gages:
 			pi.set_PWM_dutycycle(G['GPIO'], self.DutyRange)
-			time.sleep(0.25)
+			time.sleep(0.5)
 			pi.set_PWM_dutycycle(G['GPIO'], 0)
 
 
