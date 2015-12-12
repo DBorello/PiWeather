@@ -1,9 +1,10 @@
 import configparser
 import logging
-import pigpio
-import requests
 import sys
 import time
+
+import pigpio
+import requests
 
 #logging.basicConfig(level=logger.INFO)
 logger = logging.getLogger(__name__)
@@ -15,7 +16,7 @@ Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
          {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
          {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
          {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
-OverrideButton = 14
+OverrideButton = 21
 
 def main():
 	#Load config
@@ -99,7 +100,7 @@ class AnalogDisplay():
 
 		#Initialize max button
 		pi.set_mode(OverrideButton, pigpio.INPUT)
-		pi.set_pull_up_down(OverrideButton, pigpio.PUD_UP)
+		pi.set_pull_up_down(OverrideButton, pigpio.PUD_DOWN)
 		pi.callback(OverrideButton, pigpio.FALLING_EDGE, self.DoOverride)
 
 		self.StartupAnimation()
