@@ -23,6 +23,8 @@ def main():
 	ch.setLevel(logging.getLevelName(config['General'].get('LogLevel','INFO')))
 	logger.addHandler(ch)
 
+	#Parse config
+	ParseConfig(config)
 
 	Weather = WUnderground(config['WUnderground'].get('Station',None))
 	Display = AnalogDisplay(Gages)
