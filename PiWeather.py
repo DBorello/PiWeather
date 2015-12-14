@@ -109,7 +109,7 @@ class AnalogDisplay():
 			Output = max(0,min(1,Output))
 			Duty = Output*self.DutyRange
 
-			s += G['Station'] + ':' + str(reading)
+			s += G['Station'] + ':' + str(Reading)
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
 
 		logger.info(s)
