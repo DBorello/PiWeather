@@ -24,7 +24,7 @@ def main():
 	logger.addHandler(ch)
 
 	#Parse config
-	ParseConfig(config)
+	Gages = ParseConfig(config)
 
 	Weather = WUnderground(config['WUnderground'].get('Station',None))
 	Display = AnalogDisplay(Gages)
@@ -38,9 +38,16 @@ def main():
 			Shutdown()
 
 def ParseConfig(config):
+	Gages = []
 	for s in config.sections():
-		print(s)
-	return
+		if s == 'General':
+			continue
+
+		G = {'GPIO': config.get(s,'GPIO'), 'Min': config.get(s,'Min'), 'Max': config.get(s,'Max')}
+		Gages.append(G)
+
+	print Gages
+	return Gages
 
 def Shutdown():
 	logger.info('Shutting down....')
