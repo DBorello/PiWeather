@@ -100,7 +100,7 @@ class AnalogDisplay():
 			else:
 				return
 
-		s = 'Setting gages ==='
+		s = ''
 		for G in self.Gages:
 			Reading = GetWeather(G['Station'])
 			Range = G['Max'] - G['Min']
@@ -109,7 +109,7 @@ class AnalogDisplay():
 			Output = max(0,min(1,Output))
 			Duty = Output*self.DutyRange
 
-			s += G['Station'] + ':' + str(Reading)
+			s += '   ' + G['Station'] +  ' = ' + str(Reading)
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
 
 		logger.info(s)
