@@ -43,7 +43,7 @@ def ParseConfig(config):
 		if s == 'General':
 			continue
 
-		G = {'Station': s, 'GPIO': config.get(s,'GPIO'), 'Min': config.get(s,'Min'), 'Max': config.get(s,'Max')}
+		G = {'Station': s, 'GPIO': int(config.get(s,'GPIO')), 'Min': int(config.get(s,'Min')), 'Max': int(config.get(s,'Max'))}
 		Gages.append(G)
 
 	print(Gages)
