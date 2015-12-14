@@ -52,20 +52,10 @@ def Shutdown():
 class WUnderground():
 	def __init__(self, apiKey, Station=None):
 		self.apiKey = apiKey
+		self.Station = Station
 
 		self.Current = {'Temp': 0, 'Humidity': 0, 'Precip': 0, 'Pressure': 30, 'Wind': 0}
-		if Station is None:
-			self.Station = self.GetLocal()
-		else:
-			self.Station = Station
 		logger.info('Using station: %s',self.Station)
-
-	def GetLocal(self):
-		r = requests.get('http://api.wunderground.com/api/{}/geolookup/q/autoip.json'.format(self.apiKey))
-		data = r.json()
-		logger.debug('Raw geoip response: %s',str(data))
-		Station = data['location']['nearby_weather_stations']['pws']['station'][0]['id']
-		return Station
 
 	def GetWeather(self):
 		try:
