@@ -93,7 +93,7 @@ class AnalogDisplay():
 		self.StartupAnimation()
 
 
-	def UpdateGages(self,Current):
+	def UpdateGages(self):
 		if self.Override:
 			logger.debug('In override mode, not updating gages')
 			if time.time() - self.OverrideTime > 60:
