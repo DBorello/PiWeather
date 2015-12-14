@@ -25,7 +25,7 @@ def main():
 
 	#Parse config
 	Gages = ParseConfig(config)
-	OverrideButton = config.get('General','OverrideButton')
+	OverrideButton = int(config.get('General','OverrideButton'))
 
 	#Initialize
 	Display = AnalogDisplay(OverrideButton, Gages)
