@@ -32,9 +32,8 @@ def main():
 
 	while 1:
 		try:
-			Current = Weather.GetWeather()
-			Display.UpdateGages(Current)
-			time.sleep(60)
+			Display.UpdateGages()
+			time.sleep(15)
 		except KeyboardInterrupt:
 			Shutdown()
 
