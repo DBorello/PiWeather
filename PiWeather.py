@@ -63,9 +63,8 @@ def GetWeather(Station):
 
 		StationData = data['stations'][list(data['stations'].keys())[0]]
 
-		Temp = StationData['temperature']
+		Temp = float(StationData['temperature'])
 
-		logger.info('%s == %f ',Station, Temp)
 		return Temp
 	except:
 		logger.info('Failed to pull weather from WUnderground for %s', Station)
@@ -101,6 +100,7 @@ class AnalogDisplay():
 			else:
 				return
 
+		s = 'Setting gages ==='
 		for G in self.Gages:
 			Reading = GetWeather(G['Station'])
 			Range = G['Max'] - G['Min']
@@ -109,8 +109,10 @@ class AnalogDisplay():
 			Output = max(0,min(1,Output))
 			Duty = Output*self.DutyRange
 
-			logger.debug('Setting {} to {}'.format(G['Station'], Duty) )
+			s += G['Station'] + ':' + str(reading)
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
+
+		logger.info(s)
 
 	def DoOverride(self, gpio, level, tick):
 		logger.info('Doing override')
