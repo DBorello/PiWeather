@@ -25,9 +25,10 @@ def main():
 
 	#Parse config
 	Gages = ParseConfig(config)
+	OverrideButton = config.get('General','OverrideButton')
 
 	#Initialize
-	Display = AnalogDisplay(Gages)
+	Display = AnalogDisplay(OverrideButton, Gages)
 
 	while 1:
 		try:
@@ -73,7 +74,8 @@ def GetWeather(Station):
 
 
 class AnalogDisplay():
-	def __init__(self, Gages):
+	def __init__(self, OverrideButton, Gages):
+		self.OverrideButton = OverrideButton
 		self.Gages = Gages
 		self.DutyRange = 100
 		self.Override = False
@@ -85,9 +87,9 @@ class AnalogDisplay():
 
 
 		#Initialize max button
-		pi.set_mode(OverrideButton, pigpio.INPUT)
-		pi.set_pull_up_down(OverrideButton, pigpio.PUD_DOWN)
-		pi.callback(OverrideButton, pigpio.FALLING_EDGE, self.DoOverride)
+		pi.set_mode(self.OverrideButton, pigpio.INPUT)
+		pi.set_pull_up_down(self.OverrideButton, pigpio.PUD_DOWN)
+		pi.callback(self.OverrideButton, pigpio.FALLING_EDGE, self.DoOverride)
 
 		self.StartupAnimation()
 
