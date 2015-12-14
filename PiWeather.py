@@ -46,7 +46,7 @@ def ParseConfig(config):
 		G = {'Station': s, 'GPIO': int(config.get(s,'GPIO')), 'Min': int(config.get(s,'Min')), 'Max': int(config.get(s,'Max'))}
 		Gages.append(G)
 
-	print(Gages)
+	logger.info(Gages)
 	return Gages
 
 def Shutdown():
