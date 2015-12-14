@@ -11,12 +11,6 @@ logger = logging.getLogger(__name__)
 
 
 pi = pigpio.pi()
-Gages = [{'Name': 'Temp',       'GPIO': 17, 'Min': 0, 'Max': 100},
-         {'Name': 'Humidity',   'GPIO': 18, 'Min': 0, 'Max': 100},
-         {'Name': 'Pressure',   'GPIO': 27, 'Min': 29, 'Max': 31 },
-         {'Name': 'Precip',     'GPIO': 22, 'Min': 0, 'Max': 1},
-         {'Name': 'Wind',       'GPIO': 23, 'Min': 0, 'Max': 30}]
-OverrideButton = 21
 
 def main():
 	#Load config
@@ -29,11 +23,8 @@ def main():
 	ch.setLevel(logging.getLevelName(config['General'].get('LogLevel','INFO')))
 	logger.addHandler(ch)
 
-	if config['WUnderground'].get('apiKey',None) is None:
-		logger.info('WUnderground API key not defined in /boot/PiWeather.ini')
-		Shutdown()
 
-	Weather = WUnderground(config['WUnderground']['apiKey'], config['WUnderground'].get('Station',None))
+	Weather = WUnderground(config['WUnderground'].get('Station',None))
 	Display = AnalogDisplay(Gages)
 
 	while 1:
@@ -44,14 +35,18 @@ def main():
 		except KeyboardInterrupt:
 			Shutdown()
 
+def ParseConfig(config):
+	for s in config.sections():
+		print(s)
+	return
+
 def Shutdown():
 	logger.info('Shutting down....')
 	pi.stop()
 	sys.exit(0)
 
 class WUnderground():
-	def __init__(self, apiKey, Station=None):
-		self.apiKey = apiKey
+	def __init__(self, Station=None):
 		self.Station = Station
 
 		self.Current = {'Temp': 0, 'Humidity': 0, 'Precip': 0, 'Pressure': 30, 'Wind': 0}
