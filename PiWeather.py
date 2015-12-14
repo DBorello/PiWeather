@@ -109,7 +109,7 @@ class AnalogDisplay():
 			Output = max(0,min(1,Output))
 			Duty = Output*self.DutyRange
 
-			logger.debug('Setting {} to {}'.format(G['Name'], Duty) )
+			logger.debug('Setting {} to {}'.format(G['Station'], Duty) )
 			pi.set_PWM_dutycycle(G['GPIO'], Duty)
 
 	def DoOverride(self, gpio, level, tick):
