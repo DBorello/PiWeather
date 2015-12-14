@@ -26,7 +26,7 @@ def main():
 	#Parse config
 	Gages = ParseConfig(config)
 
-	Weather = WUnderground(config['WUnderground'].get('Station',None))
+	#Initialize
 	Display = AnalogDisplay(Gages)
 
 	while 1:
@@ -43,7 +43,7 @@ def ParseConfig(config):
 		if s == 'General':
 			continue
 
-		G = {'GPIO': config.get(s,'GPIO'), 'Min': config.get(s,'Min'), 'Max': config.get(s,'Max')}
+		G = {'Station': s, 'GPIO': config.get(s,'GPIO'), 'Min': config.get(s,'Min'), 'Max': config.get(s,'Max')}
 		Gages.append(G)
 
 	print(Gages)
@@ -54,31 +54,23 @@ def Shutdown():
 	pi.stop()
 	sys.exit(0)
 
-class WUnderground():
-	def __init__(self, Station=None):
-		self.Station = Station
 
-		self.Current = {'Temp': 0, 'Humidity': 0, 'Precip': 0, 'Pressure': 30, 'Wind': 0}
-		logger.info('Using station: %s',self.Station)
+def GetWeather(Station):
+	try:
+		r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:d}'.format(Station,int(round(time.time()*1000,0))))
+		data = r.json()
+		logger.debug('Raw weather response: %s',str(data))
 
-	def GetWeather(self):
-		try:
-			r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:d}'.format(self.Station,int(round(time.time()*1000,0))))
-			data = r.json()
-			logger.debug('Raw weather response: %s',str(data))
+		StationData = data['stations'][list(data['stations'].keys())[0]]
 
-			StationData = data['stations'][list(data['stations'].keys())[0]]
+		Temp = StationData['temperature']
 
-			self.Current['Temp'] = StationData['temperature']
-			self.Current['Humidity'] = StationData['humidity']
-			self.Current['Pressure'] = StationData['pressure']
-			self.Current['Precip'] = StationData['precip_today']
-			self.Current['Wind'] =  StationData['wind_speed']
+		logger.info('%s == %f ',Station, Temp)
+		return Temp
+	except:
+		logger.info('Failed to pull weather from WUnderground for %s', Station)
+		return 0
 
-			logger.info('Recieved weather: %s ',str(self.Current))
-		except:
-			logger.info('Failed to pull weather from WUnderground')
-		return self.Current
 
 class AnalogDisplay():
 	def __init__(self, Gages):
@@ -109,7 +101,7 @@ class AnalogDisplay():
 				return
 
 		for G in self.Gages:
-			Reading = Current[G['Name']]
+			Reading = GetWeather(G['Station'])
 			Range = G['Max'] - G['Min']
 
 			Output = (Reading - G['Min'])/Range
