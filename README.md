@@ -41,12 +41,9 @@ Analog weather station powered by a Raspberry Pi
     cp /root/PiWeather/reverse-ssh.service /etc/systemd/system/reverse-ssh.service
     systemctl enable reverse-ssh.service
 
-    #Setup remote access
-    ssh-keygen -t rsa -N '' -f /root/.ssh/reverse-ssh
-    nano -w /etc/systemd/system/reverse-ssh.service# Edit ssh port in /etc/systemd/system/reverse-ssh.service
-    cat /root/.ssh/reverse-ssh.pub
-    #Copy key to reverse /home/vmuser/.ssh/authorized_keys
-    echo "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAyktApU0/6Ny9pUj3hcOeacVl29yjIaLjPx+R+PPhy/cv9fsnRTj16Vrayfsf78OlBoz+YMSPLSuAMolZiP1leb7RsA2WR3MaSIHtxplatwjNJ84pfAkwbKQPmBRdunPZSis2lkRs64dutiD9m0oPgn1cOO0e8Eh1QSc5ThT6Nyc= VM Key" >> /root/.ssh/authorized_keys
+    #Install default config
+    cp /root/PiWeather/PiWeather.ini /boot
+
 
     #Setup FS for read-only
     echo "wc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=noop rootwait fastboot noswap ro" > /boot/cmdline.txt
@@ -58,10 +55,9 @@ Analog weather station powered by a Raspberry Pi
     echo "alias rob='mount -o remount,ro /boot'" >> /etc/bash.bashrc
     echo "alias rwb='mount -o remount,rw /boot'" >> /etc/bash.bashrc
 
-### /boot/PiWeather.ini
-    [General]
-    LogLevel = INFO
-
-    [WUnderground]
-    apiKey = {{apiKey}}
-    Station = KORPHILO13
+    #Setup remote access
+    ssh-keygen -t rsa -N '' -f /root/.ssh/reverse-ssh
+    nano -w /etc/systemd/system/reverse-ssh.service# Edit ssh port in /etc/systemd/system/reverse-ssh.service
+    cat /root/.ssh/reverse-ssh.pub
+    #Copy key to reverse /home/vmuser/.ssh/authorized_keys
+    echo "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAyktApU0/6Ny9pUj3hcOeacVl29yjIaLjPx+R+PPhy/cv9fsnRTj16Vrayfsf78OlBoz+YMSPLSuAMolZiP1leb7RsA2WR3MaSIHtxplatwjNJ84pfAkwbKQPmBRdunPZSis2lkRs64dutiD9m0oPgn1cOO0e8Eh1QSc5ThT6Nyc= VM Key" >> /root/.ssh/authorized_keys
