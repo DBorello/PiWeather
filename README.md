@@ -32,8 +32,8 @@ Analog weather station powered by a Raspberry Pi
     #Pull repository
     cd ~
     git clone https://github.com/DBordello/PiWeather.git
-    
-    #Setup service 
+
+    #Setup service
     cp /root/PiWeather/PiWeather.service /etc/systemd/system/PiWeather.service
     systemctl enable PiWeather.service
     cp /root/PiWeather/pigpiod.service /etc/systemd/system/pigpiod.service
