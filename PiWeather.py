@@ -1,10 +1,9 @@
 import configparser
 import logging
-import sys
-import time
-
 import pigpio
 import requests
+import sys
+import time
 
 #logging.basicConfig(level=logger.INFO)
 logger = logging.getLogger(__name__)
@@ -32,7 +31,8 @@ def main():
 
 	while 1:
 		try:
-			Display.UpdateGages()
+			Current = GetWeather(Gages)
+			Display.UpdateGages(Current)
 			time.sleep(15)
 		except KeyboardInterrupt:
 			Shutdown()
@@ -55,20 +55,25 @@ def Shutdown():
 	sys.exit(0)
 
 
-def GetWeather(Station):
+def GetWeather(Gages):
+	Stations = ''
+	Current = {}
+	for G in Gages:
+		Stations += G['Station'] + ','
+		Current[G['Station']] = 0
+
 	try:
-		r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:d}'.format(Station,int(round(time.time()*1000,0))))
+		r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:d}'.format(Stations,int(round(time.time()*1000,0))))
 		data = r.json()
 		logger.debug('Raw weather response: %s',str(data))
 
-		StationData = data['stations'][list(data['stations'].keys())[0]]
 
-		Temp = float(StationData['temperature'])
-
-		return Temp
+		for G in Gages:
+			Current[G['Station']] = float(data['stations'][G['Station']]['temperature'])
 	except:
 		logger.info('Failed to pull weather from WUnderground for %s', Station)
-		return 0
+
+	return Current
 
 
 class AnalogDisplay():
@@ -92,7 +97,7 @@ class AnalogDisplay():
 		self.StartupAnimation()
 
 
-	def UpdateGages(self):
+	def UpdateGages(self, Current):
 		if self.Override:
 			logger.debug('In override mode, not updating gages')
 			if time.time() - self.OverrideTime > 60:
@@ -102,7 +107,7 @@ class AnalogDisplay():
 
 		s = ''
 		for G in self.Gages:
-			Reading = GetWeather(G['Station'])
+			Reading = Current[G['Station']]
 			Range = G['Max'] - G['Min']
 
 			Output = (Reading - G['Min'])/Range
