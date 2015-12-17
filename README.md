@@ -19,7 +19,7 @@ Analog weather station powered by a Raspberry Pi
     #Advanced -> Swap -> Disable
 
     #Install dependencies
-    apt-get -y install build-essential git python3 python3-requests
+    apt-get -y install build-essential git python3 python3-requests;
 
     #Install pigpio
     cd ~
