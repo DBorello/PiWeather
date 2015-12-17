@@ -41,7 +41,7 @@ Analog weather station powered by a Raspberry Pi
     cp /root/PiWeather/reverse-ssh.service /etc/systemd/system/reverse-ssh.service
     systemctl enable reverse-ssh.service
 
-    #Install default config
+    #Setup wireless
     cp /root/PiWeather/Wireless.conf /boot
     echo "#/etc/network/interfaces
 
