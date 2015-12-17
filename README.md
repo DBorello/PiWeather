@@ -57,7 +57,8 @@ Analog weather station powered by a Raspberry Pi
 
     #Setup remote access
     ssh-keygen -t rsa -N '' -f /root/.ssh/reverse-ssh
-    nano -w /etc/systemd/system/reverse-ssh.service# Edit ssh port in /etc/systemd/system/reverse-ssh.service
     cat /root/.ssh/reverse-ssh.pub
     #Copy key to reverse /home/vmuser/.ssh/authorized_keys
     echo "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAyktApU0/6Ny9pUj3hcOeacVl29yjIaLjPx+R+PPhy/cv9fsnRTj16Vrayfsf78OlBoz+YMSPLSuAMolZiP1leb7RsA2WR3MaSIHtxplatwjNJ84pfAkwbKQPmBRdunPZSis2lkRs64dutiD9m0oPgn1cOO0e8Eh1QSc5ThT6Nyc= VM Key" >> /root/.ssh/authorized_keys
+
+    #Edit ssh port in /etc/systemd/system/reverse-ssh.service
