@@ -62,6 +62,7 @@ def GetWeather(Gages):
 		Stations += G['Station'] + ','
 		Current[G['Station']] = 0
 
+	logger.debug('Using stations %s',Stations)
 	try:
 		r = requests.get('http://stationdata.wunderground.com/cgi-bin/stationlookup?station={0:s}&units=english&v=2.0&format=json&_={1:d}'.format(Stations,int(round(time.time()*1000,0))))
 		data = r.json()
