@@ -70,7 +70,10 @@ def GetWeather(Gages):
 
 
 		for G in Gages:
-			Current[G['Station']] = float(data['stations'][G['Station']]['temperature'])
+			if G['Station'] in data['stations']:
+				Current[G['Station']] = float(data['stations'][G['Station']]['temperature'])
+			else:
+				logger.info('Unable to get weather from WUnderground for %s', G['Station'])
 	except Exception:
 		logger.exception('Failed to pull weather from WUnderground for %s', Stations)
 
