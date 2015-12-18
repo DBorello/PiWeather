@@ -2,8 +2,8 @@
 Analog weather station powered by a Raspberry Pi
 
 * Write DietPi Image (Directions for v102)
-* Edit /boot/
-dietpi.txt
+* Edit /boot/dietpi.txt
+
     Ethernet_Enabled=0
     Wifi_Enabled=1
     Wifi_SSID=FuzonWifi
