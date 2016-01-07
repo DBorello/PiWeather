@@ -25,6 +25,8 @@ systemctl enable reverse-ssh.service
 
 #Setup wireless
 cp /root/PiWeather/Wireless.conf /boot
+cp /root/PiWeather/PiWeather.ini /boot
+
 echo "#/etc/network/interfaces
 
 # Local
@@ -46,9 +48,6 @@ echo "alias ro='mount -o remount,ro /'" >> /etc/bash.bashrc
 echo "alias rw='mount -o remount,rw /'" >> /etc/bash.bashrc
 echo "alias rob='mount -o remount,ro /boot'" >> /etc/bash.bashrc
 echo "alias rwb='mount -o remount,rw /boot'" >> /etc/bash.bashrc
-
-#Setup wireless
-cp /root/PiWeather/
 
 #Setup remote access
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAyktApU0/6Ny9pUj3hcOeacVl29yjIaLjPx+R+PPhy/cv9fsnRTj16Vrayfsf78OlBoz+YMSPLSuAMolZiP1leb7RsA2WR3MaSIHtxplatwjNJ84pfAkwbKQPmBRdunPZSis2lkRs64dutiD9m0oPgn1cOO0e8Eh1QSc5ThT6Nyc= VM Key" >> /root/.ssh/authorized_keys

@@ -43,7 +43,7 @@ def ParseConfig(config):
 		if s == 'General':
 			continue
 
-		G = {'Station': s, 'GPIO': int(config.get(s,'GPIO')), 'Min': int(config.get(s,'Min')), 'Max': int(config.get(s,'Max'))}
+		G = {'Station': s, 'Fallback': config.get(s,'Fallback', None), 'GPIO': int(config.get(s,'GPIO')), 'Min': int(config.get(s,'Min')), 'Max': int(config.get(s,'Max'))}
 		Gages.append(G)
 
 	logger.info(Gages)
@@ -60,6 +60,8 @@ def GetWeather(Gages):
 	Current = {}
 	for G in Gages:
 		Stations += G['Station'] + ','
+		if G['Fallback']:
+			Stations += G['Fallback'] + ','
 		Current[G['Station']] = 0
 
 	logger.debug('Using stations %s',Stations)
@@ -72,6 +74,9 @@ def GetWeather(Gages):
 		for G in Gages:
 			if G['Station'] in data['stations']:
 				Current[G['Station']] = float(data['stations'][G['Station']]['temperature'])
+			elif G['Fallback'] in data['stations']:
+				Current[G['Station']] = float(data['stations'][G['Fallback']]['temperature'])
+				logger.info('Unable to get weather from WUnderground for %s, using FALLBACK %s', G['Station'], G['Fallback'])
 			else:
 				logger.info('Unable to get weather from WUnderground for %s', G['Station'])
 	except Exception:
