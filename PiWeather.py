@@ -43,7 +43,7 @@ def ParseConfig(config):
 		if s == 'General':
 			continue
 
-		G = {'Station': s, 'Fallback': config.get(s,'Fallback'), 'GPIO': int(config.get(s,'GPIO')), 'Min': int(config.get(s,'Min')), 'Max': int(config.get(s,'Max'))}
+		G = {'Station': s, 'Fallback': config.get(s,'Fallback', fallback=None), 'GPIO': int(config.get(s,'GPIO')), 'Min': int(config.get(s,'Min')), 'Max': int(config.get(s,'Max'))}
 		Gages.append(G)
 
 	logger.info(Gages)
