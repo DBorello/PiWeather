@@ -23,7 +23,7 @@ def main():
 	logger.addHandler(ch)
 
 	#Parse config
-	Gages = ParseConfig(config)
+	(Gages, Current) = ParseConfig(config)
 	OverrideButton = int(config.get('General','OverrideButton'))
 
 	#Initialize
@@ -31,7 +31,7 @@ def main():
 
 	while 1:
 		try:
-			Current = GetWeather(Gages)
+			Current = GetWeather(Gages, Current)
 			Display.UpdateGages(Current)
 			time.sleep(15)
 		except KeyboardInterrupt:
@@ -39,15 +39,17 @@ def main():
 
 def ParseConfig(config):
 	Gages = []
+	Current = {}
 	for s in config.sections():
 		if s == 'General':
 			continue
 
 		G = {'Station': s, 'Fallback': config.get(s,'Fallback', fallback=None), 'GPIO': int(config.get(s,'GPIO')), 'Min': int(config.get(s,'Min')), 'Max': int(config.get(s,'Max'))}
+		Current[s] = 0
 		Gages.append(G)
 
 	logger.info(Gages)
-	return Gages
+	return (Gages, Current)
 
 def Shutdown():
 	logger.info('Shutting down....')
@@ -55,14 +57,12 @@ def Shutdown():
 	sys.exit(0)
 
 
-def GetWeather(Gages):
+def GetWeather(Gages, Current):
 	Stations = ''
-	Current = {}
 	for G in Gages:
 		Stations += G['Station'] + ','
 		if G['Fallback']:
 			Stations += G['Fallback'] + ','
-		Current[G['Station']] = 0
 
 	logger.debug('Using stations %s',Stations)
 	try:
