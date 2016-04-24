@@ -22,3 +22,6 @@ Analog weather station powered by a Raspberry Pi
     AUTO_KeyboardLayout=us
     
     AUTO_CustomScriptURL=https://raw.githubusercontent.com/DBorello/PiWeather/master/Install.sh
+
+* SSH from local host.  Change /etc/systemd/system/reverse-ssh.service port
+* Add cat /root/.ssh/reverse-ssh.pub to reverse host ~/.ssh/authorized_keys
